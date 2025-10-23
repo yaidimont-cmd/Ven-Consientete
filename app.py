@@ -4,50 +4,63 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# Archivo donde guardaremos las citas
-CITAS_FILE = "data/citas.json"
-
-# Cargar o crear archivo de citas
-def cargar_citas():
-    try:
-        with open(CITAS_FILE, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
-
-def guardar_citas(citas):
-    with open(CITAS_FILE, "w") as f:
-        json.dump(citas, f, indent=2)
-
 @app.route("/")
-def inicio():
+def home():
     return render_template("index.html")
 
-@app.route("/reserva")
-def reserva():
-    return render_template("reserva.html")
-
-@app.route("/comprobar_disponibilidad", methods=["POST"])
-def comprobar_disponibilidad():
-    data = request.get_json()
-    fecha = data["fecha"]
-    servicio = data["servicio"]
-
-    citas = cargar_citas()
-    ocupadas = [c for c in citas if c["fecha"] == fecha and c["servicio"] == servicio]
-
-    if len(ocupadas) < 5:  # máximo 5 citas por día/servicio
-        return jsonify({"disponible": True})
-    else:
-        return jsonify({"disponible": False})
-
-@app.route("/reservar", methods=["POST"])
+# Ruta de reserva
+@app.route("/reservar", methods=["GET", "POST"])
 def reservar():
-    data = request.get_json()
-    citas = cargar_citas()
-    citas.append(data)
-    guardar_citas(citas)
-    return jsonify({"ok": True})
+    if request.method == "POST":
+        # Datos privados
+        nombre = request.form["nombre"]
+        telefono = request.form["telefono"]
+        direccion = request.form["direccion"]
+
+        # Datos públicos
+        producto = request.form["producto"]
+        dia = request.form["dia"]
+        duracion = request.form["duracion"]
+
+        # Guardar todas las citas en un archivo JSON privado
+        try:
+            with open("citas_privadas.json", "r") as f:
+                citas = json.load(f)
+        except:
+            citas = []
+
+        citas.append({
+            "nombre": nombre,
+            "telefono": telefono,
+            "direccion": direccion,
+            "producto": producto,
+            "dia": dia,
+            "duracion": duracion,
+            "fecha_registro": str(datetime.now())
+        })
+
+        with open("citas_privadas.json", "w") as f:
+            json.dump(citas, f, indent=4)
+
+        return redirect(url_for("home"))
+
+    return render_template("reservar.html")
+
+# Dashboard público (solo muestra fecha, duración y producto)
+@app.route("/dashboard")
+def dashboard():
+    try:
+        with open("citas_privadas.json", "r") as f:
+            citas = json.load(f)
+    except:
+        citas = []
+
+    # Crear versión pública
+    citas_publicas = [{"producto": c["producto"], "dia": c["dia"], "duracion": c["duracion"]} for c in citas]
+
+    return render_template("dashboard.html", citas=citas_publicas)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
