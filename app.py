@@ -6,10 +6,10 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_templates("index.html")
 
 # Ruta de reserva
-@app.route("/reservar", methods=["GET", "POST"])
+@app.route("/reserva", methods=["GET", "POST"])
 def reservar():
     if request.method == "POST":
         # Datos privados
@@ -24,7 +24,7 @@ def reservar():
 
         # Guardar todas las citas en un archivo JSON privado
         try:
-            with open("citas_privadas.json", "r") as f:
+            with open("citas.json", "r") as f:
                 citas = json.load(f)
         except:
             citas = []
@@ -39,18 +39,18 @@ def reservar():
             "fecha_registro": str(datetime.now())
         })
 
-        with open("citas_privadas.json", "w") as f:
+        with open("citas.json", "w") as f:
             json.dump(citas, f, indent=4)
 
         return redirect(url_for("home"))
 
-    return render_template("reservar.html")
+    return render_templates("reserva.html")
 
 # Dashboard público (solo muestra fecha, duración y producto)
 @app.route("/dashboard")
 def dashboard():
     try:
-        with open("citas_privadas.json", "r") as f:
+        with open("citas.json", "r") as f:
             citas = json.load(f)
     except:
         citas = []
@@ -64,3 +64,4 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
