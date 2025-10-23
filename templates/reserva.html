@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="reserva">
+  <h2>Reserva tu cita</h2>
+  <form id="form-reserva">
+    <label for="servicio">Selecciona el servicio:</label>
+    <select id="servicio" required>
+      <option value="">--Selecciona--</option>
+      <option value="Depilación Bikini" data-duracion="45">Depilación Bikini (45 min)</option>
+      <option value="Depilación Pierna completa" data-duracion="90">Depilación Pierna completa (90 min)</option>
+      <option value="Depilación Axilas" data-duracion="45">Depilación Axilas (45 min)</option>
+      <option value="Depilación Boso" data-duracion="30">Depilación Boso (30 min)</option>
+      <option value="Keratina" data-duracion="0">Keratina (Consultar)</option>
+    </select>
+
+    <label for="fecha">Selecciona la fecha:</label>
+    <input type="date" id="fecha" required>
+
+    <div id="estado"></div>
+
+    <button type="submit" class="boton">Reservar</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,72 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f4f7; /* crema */
+  color: #de76bf; /* rosa oscuro */
+  margin: 0;
+}
+
+header {
+  background-color: #e3a1cf; /* rosa suave */
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+nav a {
+  margin: 0 1rem;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+h1, h2 {
+  color: #d35de3;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #f9f4f7 60%, #f3e6f5);
+}
+
+.boton {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #d35de3;
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.boton:hover {
+  background-color: #de76bf;
+}
+
+form {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  max-width: 400px;
+  margin: 2rem auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#estado {
+  margin: 1rem 0;
+  font-weight: bold;
+}
