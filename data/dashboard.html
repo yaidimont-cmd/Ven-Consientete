@@ -1,0 +1,15 @@
+<h1>Dashboard de Citas</h1>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Producto</th>
+        <th>Día</th>
+        <th>Duración (min)</th>
+    </tr>
+    {% for cita in citas %}
+    <tr>
+        <td>{{ cita.producto }}</td>
+        <td>{{ cita.dia }}</td>
+        <td>{{ cita.duracion }}</td>
+    </tr>
+    {% endfor %}
+</table>
