@@ -1,7 +1,42 @@
-[
-  {
-    "servicio": "Depilaci\u00f3n Bikini",
-    "fecha": "2025-10-24",
-    "hora": "10:00"
-  }
-]
+# app.py
+from flask import Flask, render_template, request, redirect, url_for
+import json
+from datetime import datetime
+
+app = Flask(__name__)
+
+# ruta principal
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+# ruta para reservar
+@app.route("/reservar", methods=["GET", "POST"])
+def reservar():
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        dia = request.form["dia"]
+        duracion = request.form["duracion"]
+
+        # cargar citas existentes
+        try:
+            with open("citas.json", "r") as f:
+                citas = json.load(f)
+        except:
+            citas = []
+
+        # añadir nueva cita
+        citas.append({
+            "nombre": nombre,
+            "dia": dia,
+            "duracion": duracion,
+            "fecha_registro": str(datetime.now())
+        })
+
+        # guardar de nuevo
+        with open("citas.json", "w") as f:
+            json.dump(citas, f, indent=4)
+
+        return redirect(url_for("home"))
+
+    return render_template("reservar.html")
