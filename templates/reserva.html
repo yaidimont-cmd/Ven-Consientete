@@ -1,10 +1,16 @@
-{% extends "base.html" %}
-{% block content %}
-<section class="reserva">
-  <h2>Reserva tu cita</h2>
-  <form id="form-reserva">
-    <label for="servicio">Selecciona el servicio:</label>
-    <select id="servicio" required>
+<h1>Reservar cita</h1>
+<form method="POST">
+    <label>Nombre:</label>
+    <input type="text" name="nombre" required>
+
+    <label>Teléfono:</label>
+    <input type="text" name="telefono" required>
+
+    <label>Dirección:</label>
+    <input type="text" name="direccion" required>
+
+    <label>Producto:</label>
+    <select name="producto" required>
       <option value="">--Selecciona--</option>
       <option value="Depilación Bikini" data-duracion="45">Depilación Bikini (45 min)</option>
       <option value="Depilación Pierna completa" data-duracion="90">Depilación Pierna completa (90 min)</option>
@@ -13,12 +19,11 @@
       <option value="Keratina" data-duracion="0">Keratina (Consultar)</option>
     </select>
 
-    <label for="fecha">Selecciona la fecha:</label>
-    <input type="date" id="fecha" required>
+     <label>Día:</label>
+    <input type="date" name="dia" required>
 
-    <div id="estado"></div>
+    <label>Duración (minutos):</label>
+    <input type="number" name="duracion" required>
 
-    <button type="submit" class="boton">Reservar</button>
-  </form>
-</section>
-{% endblock %}
+    <button type="submit">Reservar cita</button>
+</form>
